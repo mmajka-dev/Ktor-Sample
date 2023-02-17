@@ -2,9 +2,11 @@ package kmm.sample.routes
 
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kmm.sample.data.AuthDatasource
+import kmm.sample.model.LoginRequest
 import org.koin.ktor.ext.inject
 
 fun Application.authRouting() {
@@ -13,8 +15,9 @@ fun Application.authRouting() {
 
     routing {
         route(Routes.Auth.base) {
-            get(Routes.Auth.signIn) {
-                call.respond(HttpStatusCode.OK, "Sign In ${datasource.sayHello()}")
+            post(Routes.Auth.signIn) {
+                val user = call.receive<LoginRequest>()
+                call.respond(HttpStatusCode.OK, user)
             }
             get(Routes.Auth.signUp) {
                 call.respond(HttpStatusCode.OK, "Sign Up")
