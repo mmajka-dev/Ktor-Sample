@@ -5,6 +5,7 @@ import io.ktor.server.response.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kmm.sample.routes.authRouting
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -12,6 +13,8 @@ fun Application.configureRouting() {
             call.respondText(text = "500: $cause" , status = HttpStatusCode.InternalServerError)
         }
     }
+
+    authRouting()
     routing {
         get("/") {
             call.respondText("Hello World!")
