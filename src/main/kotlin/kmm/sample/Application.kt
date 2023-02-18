@@ -6,11 +6,12 @@ import io.ktor.server.engine.*
 import kmm.sample.plugins.*
 
 fun main() {
-    embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
+    embeddedServer(CIO, port = System.getenv("PORT")?.toInt() ?: 8080, module = Application::module)
         .start(wait = true)
 }
 
 fun Application.module() {
+    configureDatabase()
     configureKoin()
     configureSerialization()
     configureTemplating()

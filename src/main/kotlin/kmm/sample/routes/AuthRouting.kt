@@ -6,7 +6,8 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kmm.sample.data.AuthDatasource
-import kmm.sample.model.LoginRequest
+import kmm.sample.model.request.CreateUserRequest
+import kmm.sample.model.request.LoginRequest
 import org.koin.ktor.ext.inject
 
 fun Application.authRouting() {
@@ -16,11 +17,26 @@ fun Application.authRouting() {
     routing {
         route(Routes.Auth.base) {
             post(Routes.Auth.signIn) {
-                val user = call.receive<LoginRequest>()
-                call.respond(HttpStatusCode.OK, user)
+                val request = call.receive<LoginRequest>()
+                try {
+                    val user = datasource.signIn(request)
+                    if (user != null) {
+                        call.respond(HttpStatusCode.OK, user)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound)
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, e.message.toString())
+                }
             }
-            get(Routes.Auth.signUp) {
-                call.respond(HttpStatusCode.OK, "Sign Up")
+            post(Routes.Auth.signUp) {
+                val request = call.receive<CreateUserRequest>()
+                try {
+                    datasource.signUp(request)
+                    call.respond(HttpStatusCode.OK)
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, e.message.toString())
+                }
             }
             get(Routes.Auth.forgotPassword) {
                 call.respond(HttpStatusCode.OK, "Forgot password")

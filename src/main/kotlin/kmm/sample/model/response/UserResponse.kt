@@ -1,9 +1,9 @@
-package kmm.sample.model
+package kmm.sample.model.response
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LoginResponse(
+data class UserResponse(
     val uuid: String,
     val username: String,
     val email: String,
