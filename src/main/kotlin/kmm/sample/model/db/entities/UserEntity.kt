@@ -1,6 +1,6 @@
-package kmm.sample.db.entities
+package kmm.sample.model.db.entities
 
-import kmm.sample.db.Tables
+import kmm.sample.model.db.Tables
 import kmm.sample.model.response.UserResponse
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table

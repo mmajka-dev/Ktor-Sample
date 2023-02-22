@@ -5,6 +5,8 @@ import io.ktor.server.auth.jwt.*
 import com.typesafe.config.ConfigFactory
 import io.ktor.server.application.*
 import io.ktor.server.config.*
+import kmm.sample.config.auth.JWTConfig
+import kmm.sample.config.auth.UserPrincipal
 
 fun Application.configureSecurity() {
     val appConfig = HoconApplicationConfig(ConfigFactory.load())

@@ -1,8 +1,30 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/signin.css?v=20210515" type="text/css">
     <title>Sign In</title>
 </head>
 <body>
-
+<section class = "container">
+    <div class = "card-container">
+        <div class = "card-container-inner">
+            <div class = "card-header">
+                <h1>Sign In</h1>
+            </div>
+            <div class = "card-form">
+                <form>
+                    <label for = "email">Email: </label>
+                    <input type="email" id="email" name="email" placeholder="john.doe@gmail.com">
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                </form>
+                <button class ="sign_in" id ='sign_in' value="Sign In">Sign In</button>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package kmm.sample.plugins.security
+package kmm.sample.config.auth
 
 import io.ktor.server.auth.*
 

@@ -1,4 +1,4 @@
-package kmm.sample.db
+package kmm.sample.model.db
 
 object Tables {
     const val users = "USERS"

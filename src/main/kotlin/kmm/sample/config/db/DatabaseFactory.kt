@@ -1,4 +1,4 @@
-package kmm.sample.db
+package kmm.sample.config.db
 
 import com.typesafe.config.ConfigFactory
 import io.ktor.server.config.*

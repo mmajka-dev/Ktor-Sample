@@ -1,13 +1,13 @@
-package kmm.sample.data
+package kmm.sample.datasource
 
-import kmm.sample.db.DatabaseFactory.dbQuery
-import kmm.sample.db.entities.UserEntity
-import kmm.sample.db.entities.toUserResponse
+import kmm.sample.config.db.DatabaseFactory.dbQuery
+import kmm.sample.model.db.entities.UserEntity
+import kmm.sample.model.db.entities.toUserResponse
 import kmm.sample.model.request.CreateUserRequest
 import kmm.sample.model.request.LoginRequest
 import kmm.sample.model.response.LoginResponse
 import kmm.sample.model.response.UserResponse
-import kmm.sample.plugins.security.JWTConfig
+import kmm.sample.config.auth.JWTConfig
 import kmm.sample.utils.Encryptor
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
@@ -18,25 +18,17 @@ class AuthDatasourceImpl(
     private val encryptor: Encryptor
 ) : AuthDatasource {
 
-    override suspend fun signIn(request: LoginRequest): LoginResponse? {
-        val user = dbQuery {
+    override suspend fun getUserByCredentials(request: LoginRequest): UserResponse? {
+        return dbQuery {
             UserEntity.select {
                 (UserEntity.username eq request.username) and (UserEntity.password eq encryptor.encrypt(request.password))
             }
                 .firstOrNull()
                 ?.toUserResponse()
         }
-
-        return if (user == null) {
-            null
-        } else {
-            LoginResponse(
-                JWTConfig.instance.createAccessToken(user.id)
-            )
-        }
     }
 
-    override suspend fun signUp(request: CreateUserRequest) {
+    override suspend fun createUser(request: CreateUserRequest) {
         dbQuery {
             UserEntity.insert {
                 it[uuid] = UUID.randomUUID().toString()
