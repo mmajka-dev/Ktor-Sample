@@ -4,6 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import kmm.sample.plugins.*
+import kmm.sample.plugins.security.configureSecurity
 
 fun main() {
     embeddedServer(CIO, port = System.getenv("PORT")?.toInt() ?: 8080, module = Application::module)
@@ -17,6 +18,6 @@ fun Application.module() {
     configureTemplating()
     configureMonitoring()
     //configureHTTP()
-    //configureSecurity()
+    configureSecurity()
     configureRouting()
 }

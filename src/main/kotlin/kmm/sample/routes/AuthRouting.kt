@@ -19,11 +19,11 @@ fun Application.authRouting() {
             post(Routes.Auth.signIn) {
                 val request = call.receive<LoginRequest>()
                 try {
-                    val user = datasource.signIn(request)
-                    if (user != null) {
-                        call.respond(HttpStatusCode.OK, user)
+                    val token = datasource.signIn(request)
+                    if (token != null) {
+                        call.respond(HttpStatusCode.OK, token)
                     } else {
-                        call.respond(HttpStatusCode.NotFound)
+                        call.respond(HttpStatusCode.NotFound, "User not found")
                     }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, e.message.toString())
@@ -32,8 +32,13 @@ fun Application.authRouting() {
             post(Routes.Auth.signUp) {
                 val request = call.receive<CreateUserRequest>()
                 try {
-                    datasource.signUp(request)
-                    call.respond(HttpStatusCode.OK)
+                    val isUserExisting = datasource.getUserByEmail(request.email) != null
+                    if (!isUserExisting) {
+                        datasource.signUp(request)
+                        call.respond(HttpStatusCode.OK)
+                    } else {
+                        call.respond(HttpStatusCode.Conflict, "Email already used")
+                    }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, e.message.toString())
                 }

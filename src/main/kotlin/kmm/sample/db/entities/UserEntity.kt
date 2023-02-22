@@ -18,6 +18,7 @@ object UserEntity : Table(Tables.users) {
 }
 
 fun ResultRow.toUserResponse() = UserResponse(
+    id = this[UserEntity.id],
     uuid = this[UserEntity.uuid],
     username = this[UserEntity.username],
     email = this[UserEntity.email],
